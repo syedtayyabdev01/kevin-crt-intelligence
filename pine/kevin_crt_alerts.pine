@@ -1,0 +1,15 @@
+//@version=6
+indicator("KEVIN CRT INTELLIGENCE - Range Sweep/Reclaim",overlay=true)
+showLevels=input.bool(true,"Show reference range")
+refHigh=high[1]
+refLow=low[1]
+longSignal=barstate.isconfirmed and low<refLow and close>refLow and close<refHigh
+shortSignal=barstate.isconfirmed and high>refHigh and close<refHigh and close>refLow
+plot(showLevels?refHigh:na,"Reference high",color=color.new(color.red,35),style=plot.style_linebr)
+plot(showLevels?refLow:na,"Reference low",color=color.new(color.lime,35),style=plot.style_linebr)
+plotshape(longSignal,title="Bullish range reclaim",style=shape.labelup,text="CRT L",color=color.green,textcolor=color.white,location=location.belowbar)
+plotshape(shortSignal,title="Bearish range reclaim",style=shape.labeldown,text="CRT S",color=color.red,textcolor=color.white,location=location.abovebar)
+if longSignal
+    alert('{"symbol":"' + syminfo.ticker + '","timeframe":"' + timeframe.period + '","direction":"LONG","model":"range-sweep-reclaim","close":' + str.tostring(close) + '}',alert.freq_once_per_bar_close)
+if shortSignal
+    alert('{"symbol":"' + syminfo.ticker + '","timeframe":"' + timeframe.period + '","direction":"SHORT","model":"range-sweep-reclaim","close":' + str.tostring(close) + '}',alert.freq_once_per_bar_close)

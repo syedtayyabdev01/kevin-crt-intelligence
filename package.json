@@ -1,0 +1,1 @@
+{"name":"kevin-crt-intelligence","version":"0.1.0","private":true,"scripts":{"start":"npm --prefix backend start","dev":"npm --prefix backend dev","test":"npm --prefix backend test"}}
